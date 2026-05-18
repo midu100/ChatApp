@@ -1,9 +1,10 @@
 const express = require('express')
 const route = express.Router()
+const authRoute = require('./auth')
+const convoRoute = require('./convoRoute')
 
-route.get('/',(req,res)=>{
-    res.send('hello')
-})
+route.use('/auth',authRoute)
+route.use('/convo',convoRoute)
 
 module.exports = route
 
