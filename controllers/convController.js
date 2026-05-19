@@ -1,4 +1,5 @@
 const conversationSchema = require("../models/conversationSchema")
+const messageSchema = require("../models/messageSchema")
 const userSchema = require("../models/userSchema")
 
 const addNewFriend = async(req,res)=>{
@@ -31,4 +32,58 @@ const addNewFriend = async(req,res)=>{
 
 }
 
-module.exports = {addNewFriend}
+const conversationList = async (req,res)=>{
+  try {
+    const conv = await conversationSchema.find({
+      $or : [
+        {creator : req?.user?._id},
+        {participant : req?.user?._id}
+      ]
+    }).populate('creator participant','fullName avatar')
+
+    res.status(200).send(conv)
+
+
+  } 
+  catch (error) {
+    console.log(error)  
+  }
+}
+
+const sendMessage = async (req,res)=>{
+  try {
+    console.log('first')
+    const {contentType = 'text',content,conversation} = req.body
+
+    const isExistConv = await conversationSchema.findOne({_id : conversation})
+    if(!isExistConv) return res.status(400).send({message : 'Conversation not found'})
+
+    const message = new messageSchema({
+      contentType,
+      content,
+      conversation,
+      sender : req?.user?._id
+    })
+    message.save()
+    
+    res.status(200).send('sent')
+  } 
+  catch (error) {
+     console.log(error)  
+  }
+}
+
+const getMessages = async(req,res)=>{
+  const {conversation} = req.params
+  if(!conversation) return res.status(400).send({message : 'Conversation not found'})
+  try {
+    const messageList = await messageSchema.find({conversation})
+
+    res.status(200).send(messageList)
+  } 
+  catch (error) {
+      console.log(error)  
+  }
+}
+
+module.exports = {addNewFriend,conversationList,sendMessage,getMessages}

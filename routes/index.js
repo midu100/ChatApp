@@ -2,9 +2,10 @@ const express = require('express')
 const route = express.Router()
 const authRoute = require('./auth')
 const convoRoute = require('./convoRoute')
+const {authMiddleware} = require('../middleware/authMiddleware')
 
 route.use('/auth',authRoute)
-route.use('/convo',convoRoute)
+route.use('/convo', authMiddleware ,convoRoute)
 
 module.exports = route
 

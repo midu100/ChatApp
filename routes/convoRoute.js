@@ -1,9 +1,11 @@
 const express = require('express')
-const { addNewFriend } = require('../controllers/convController')
-const { authMiddleware } = require('../middleware/authMiddleware')
+const { addNewFriend, conversationList, sendMessage, getMessages } = require('../controllers/convController')
 const route = express.Router()
 
-route.post('/addnewfriend',authMiddleware,addNewFriend)
+route.post('/addnewfriend',addNewFriend)
+route.get('/list',conversationList)
+route.post('/sendmessage',sendMessage)
+route.get('/getmessage/:conversation',getMessages)
 
 
 
