@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+/* ===== Custom Theme Configuration ===== */
+@theme {
+  --font-inter: "Inter", sans-serif;
+  
+  /* Chat App Color Palette - Mockup Red Accent Theme */
+  --color-primary: #ea384d;
+  --color-primary-dark: #d21a30;
+  --color-primary-light: #fcd5d9;
+  --color-accent: #ea384d;
+  
+  /* Light Mode Surfaces (Mockup Inspired) */
+  --color-surface-dark: #13111c;
+  --color-surface-panel: #ffffff;
+  --color-surface-chat: #f3f4f6;
+  --color-surface-card: #ffffff;
+  --color-surface-hover: #f3f4f6;
+  --color-surface-active: #e5e7eb;
+  
+  /* Message Bubbles */
+  --color-bubble-sent: #ea384d;
+  --color-bubble-received: #ffffff;
+  
+  /* Text Colors */
+  --color-text-primary: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #9ca3af;
+  
+  /* Border Colors */
+  --color-border-subtle: #f3f4f6;
+  --color-border-default: #e5e7eb;
+  
+  /* Status Colors */
+  --color-online: #10b981;
+  --color-unread: #ea384d;
+  
+  /* Animations */
+  --animate-fade-in: fade-in 0.3s ease-out;
+  --animate-slide-up: slide-up 0.3s ease-out;
+  --animate-slide-left: slide-left 0.3s ease-out;
+  --animate-pulse-dot: pulse-dot 1.4s ease-in-out infinite;
+  --animate-scale-in: scale-in 0.2s ease-out;
+}
+
+/* ===== Keyframe Animations ===== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ===== Global Styles ===== */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-surface-dark);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-default);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* ===== Utility Classes ===== */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
