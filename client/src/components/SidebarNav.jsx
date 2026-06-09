@@ -6,20 +6,26 @@ import {
   Settings,
   LogOut,
 } from 'lucide-react'
+import { useNavigate } from 'react-router'
+import { useGetProfileQuery } from '../lib/api'
 
 /**
- * Sidebar Navigation - Fully static left icon bar
+ * Sidebar Navigation - Left icon bar
  */
 const SidebarNav = () => {
+  const navigate = useNavigate()
+  const { data } = useGetProfileQuery()
+  const user = data?.user
+
   return (
     <div className="w-[72px] bg-gradient-to-b from-primary to-primary-dark flex flex-col items-center py-5 shadow-lg relative z-20 shrink-0">
       {/* User Profile Avatar + Name */}
       <div className="flex flex-col items-center mb-6">
         <div className="p-0.5 rounded-full ring-2 ring-white scale-110 shadow-lg">
-          <Avatar name="Midu" size="sm" showStatus={false} />
+          <Avatar name={user?.fullName || "Midu"} image={user?.avatar} size="sm" showStatus={false} />
         </div>
         <span className="text-[10px] text-white/90 font-semibold tracking-wide mt-1.5 truncate max-w-[62px] text-center">
-          Midu
+          {user?.fullName || "Midu"}
         </span>
       </div>
 
@@ -52,7 +58,14 @@ const SidebarNav = () => {
         </div>
 
         {/* Logout */}
-        <div className="w-12 h-12 flex items-center justify-center rounded-full text-white/70 hover:bg-red-800/30 hover:text-red-100 transition-all duration-300 cursor-pointer hover:scale-105">
+        <div 
+          onClick={() => {
+            document.cookie = "acc_tkn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+            document.cookie = "ref_tkn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+            navigate('/login')
+          }}
+          className="w-12 h-12 flex items-center justify-center rounded-full text-white/70 hover:bg-red-800/30 hover:text-red-100 transition-all duration-300 cursor-pointer hover:scale-105"
+        >
           <LogOut size={20} strokeWidth={1.8} />
         </div>
       </div>

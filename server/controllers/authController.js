@@ -36,15 +36,15 @@ const signIn = async (req, res) => {
   const { email, password } = req.body;
   try {
     const userData = await userSchema.findOne({ email }).select("+password");
-
+    console.log(userData)
     if (!userData)
-      return res.status(400).send({ message: "Invalid crediential" });
+      return res.status(400).send({ message: "User not found." });
     if (userData.isVerified === false)
       return res.status(400).send({ message: "Email is not verified" });
 
     const matchPassword = await userData.comparePassword(password);
     if (!matchPassword)
-      return res.status(400).send({ message: "Invalid crediential" });
+      return res.status(400).send({ message: "Incorrect Password" });
     const accToken = generateAccessToken(userData);
     const refToken = generateAccessToken(userData);
     res
@@ -56,6 +56,22 @@ const signIn = async (req, res) => {
     console.log(error);
     res.status(500).send({ message: "Internal Server Error." });
   }
-};
+}; 
 
-module.exports = { signUp, signIn };
+const getMe = async(req,res)=>{
+  try {
+    const userData = await userSchema.findById(req.user._id)
+    if(!userData) return res.status(400).send({message : 'User Not found.'})
+    
+    return res.status(200).send({message : 'Got me' , user : userData})
+
+  }
+  catch (error) {
+    console.log(error);
+    res.status(500).send({ message: "Internal Server Error." });
+  }
+}
+
+
+
+module.exports = { signUp, signIn ,getMe};

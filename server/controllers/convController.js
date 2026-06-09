@@ -74,10 +74,12 @@ const sendMessage = async (req,res)=>{
 }
 
 const getMessages = async(req,res)=>{
-  const {conversation} = req.params
+  const {contentType='text',content,conversation} = req.body
   if(!conversation) return res.status(400).send({message : 'Conversation not found'})
   try {
     const messageList = await messageSchema.find({conversation})
+
+    global.io.to(conversation).emit('new_message',messageList)
 
     res.status(200).send(messageList)
   } 

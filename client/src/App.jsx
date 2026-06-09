@@ -1,18 +1,21 @@
 import './App.css'
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, Routes } from 'react-router'
 import LayoutOne from './layout/LayoutOne'
 import Chat from './pages/Chat'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
 
-/**
- * App Component - Root application with routing configuration
- * Following the same routing pattern as the Ghorer_Bazar_Clone repo
- */
 function App() {
-  const myRoute = createBrowserRouter(
+   const myRoute = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<LayoutOne />}>
-        <Route index element={<Chat />} />
-      </Route>
+      <>
+        <Route path="/" element={<LayoutOne />}>
+          <Route index element={<Chat />} />
+        </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+      </>
     )
   )
 
