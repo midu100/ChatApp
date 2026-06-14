@@ -1,51 +1,27 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router'
-import { useGetProfileQuery } from '../lib/api'
-import SidebarNav from '../components/SidebarNav'
-import ConversationList from '../components/ConversationList'
+import { useSelector } from 'react-redux'
 import ChatHeader from '../components/ChatHeader'
 import MessageArea from '../components/MessageArea'
 import MessageInput from '../components/MessageInput'
+import EmptyChat from '../components/EmptyChat'
 
 /**
- * Chat Page - Dynamic layout with auth check
- * Layout: [SidebarNav] [ConversationList] [ChatArea]
+ * Chat Page - Main chat area (right panel)
+ * Receives active conversation state from Redux and shows static chat content
  */
 const Chat = () => {
-    const { data, error, isLoading} = useGetProfileQuery()
-  const navigate = useNavigate()
-  
-  console.log('first=',data)
- 
-  useEffect(() => {
-    
-    if (!isLoading && error) {
-      navigate('/login')
-    }
-  }, [isLoading, error, navigate])
+  const activeConvo = useSelector((state) => state.activeConv.active)
 
-  if (isLoading) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center bg-surface-dark text-white">
-        <div className="animate-spin rounded-full h-8 w-8 border-4 border-primary border-t-transparent" />
-      </div>
-    )
+  // No conversation selected → show empty/welcome screen
+  if (!activeConvo) {
+    return <EmptyChat />
   }
 
+  // Conversation selected → show static chat content
   return (
-    <div className="flex h-full w-full overflow-hidden bg-surface-panel">
-      {/* Left Icon Navigation Bar */}
-      <SidebarNav />
-
-      {/* Conversation List Panel */}
-      <ConversationList profileData={data}/>
-
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-surface-chat min-w-0">
-        <ChatHeader />
-        <MessageArea />
-        <MessageInput />
-      </div>
+    <div className="flex-1 flex flex-col bg-surface-chat min-w-0">
+      <ChatHeader selectedConvo={activeConvo} />
+      <MessageArea selectedConvo={activeConvo} />
+      <MessageInput />
     </div>
   )
 }

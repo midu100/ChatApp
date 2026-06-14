@@ -60,7 +60,7 @@ const signIn = async (req, res) => {
 
 const getMe = async(req,res)=>{
   try {
-    const userData = await userSchema.findById(req.user._id)
+    const userData = await userSchema.findById(req.user._id).select('-password')
     if(!userData) return res.status(400).send({message : 'User Not found.'})
     
     return res.status(200).send({message : 'Got me' , user : userData})

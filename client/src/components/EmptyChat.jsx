@@ -1,44 +1,110 @@
-import { MessageCircle, Lock } from 'lucide-react'
+import { Lock, MessageCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
-/**
- * EmptyChat - Placeholder when no conversation is selected
- */
-const EmptyChat = () => {
+const avatars = [
+  {
+    src: "https://i.pravatar.cc/150?img=11",
+    className: "top-16 left-28",
+  },
+  {
+    src: "https://i.pravatar.cc/150?img=21",
+    className: "top-24 right-32",
+  },
+  {
+    src: "https://i.pravatar.cc/150?img=31",
+    className: "bottom-24 left-40",
+  },
+  {
+    src: "https://i.pravatar.cc/150?img=41",
+    className: "bottom-20 right-36",
+  },
+];
+
+export default function EmptyChat() {
   return (
-    <div className="flex-1 flex flex-col items-center justify-center bg-surface-chat animate-fade-in">
-      {/* Illustration */}
-      <div className="relative mb-8">
-        <div className="w-64 h-64 rounded-full bg-gradient-to-br from-primary/5 to-accent/5 flex items-center justify-center">
-          <div className="w-48 h-48 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-            <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/15 to-accent/15 flex items-center justify-center">
-              <MessageCircle size={48} className="text-primary/60" strokeWidth={1.5} />
-            </div>
-          </div>
+    <div className="relative flex-1 overflow-hidden flex items-center justify-center bg-[#FAF7F2]">
+
+      {/* Background Glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] rounded-full bg-emerald-300/20 blur-[140px]" />
+
+      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] rounded-full bg-indigo-300/20 blur-[140px]" />
+
+      <div className="absolute top-1/2 left-1/2 w-[350px] h-[350px] rounded-full bg-pink-300/20 blur-[120px]" />
+
+      {/* Floating Avatars */}
+      {avatars.map((avatar, index) => (
+        <motion.img
+          key={index}
+          src={avatar.src}
+          className={`absolute w-16 h-16 rounded-full border-4 border-white shadow-2xl ${avatar.className}`}
+          animate={{
+            y: [0, -20, 0],
+          }}
+          transition={{
+            duration: 3 + index,
+            repeat: Infinity,
+          }}
+        />
+      ))}
+
+      {/* Main Card */}
+      <div
+        className="
+        relative z-10
+        px-16 py-14
+        rounded-[40px]
+        bg-white/60
+        backdrop-blur-3xl
+        border border-white/70
+        shadow-[0_20px_80px_rgba(0,0,0,.08)]
+        "
+      >
+        {/* Icon */}
+        <motion.div
+          className="mx-auto w-28 h-28 rounded-full bg-emerald-100 flex items-center justify-center"
+          animate={{
+            scale: [1, 1.08, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+          }}
+        >
+          <MessageCircle
+            size={50}
+            className="text-emerald-500"
+          />
+        </motion.div>
+
+        {/* Heading */}
+        <h1 className="mt-8 text-center text-5xl font-bold text-slate-800">
+          Welcome to TalkChat
+        </h1>
+
+        {/* Description */}
+        <p className="mt-5 max-w-lg text-center text-gray-500 leading-8">
+          Send and receive messages instantly.
+          <br />
+          Stay connected with friends and teams
+          across multiple devices.
+        </p>
+
+        {/* Typing Dots */}
+        <div className="flex justify-center gap-2 mt-8">
+          <div className="typing-dot"></div>
+          <div className="typing-dot delay-200"></div>
+          <div className="typing-dot delay-400"></div>
         </div>
-        
-        {/* Floating dots */}
-        <div className="absolute top-8 right-8 w-3 h-3 rounded-full bg-primary/30 animate-pulse-dot" />
-        <div className="absolute bottom-12 left-4 w-2 h-2 rounded-full bg-accent/40 animate-pulse-dot" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute top-20 left-8 w-2.5 h-2.5 rounded-full bg-primary-light/25 animate-pulse-dot" style={{ animationDelay: '1s' }} />
-      </div>
 
-      {/* Text */}
-      <h2 className="text-2xl font-light text-text-primary mb-3 tracking-tight">
-        ChatApp for Desktop
-      </h2>
-      <p className="text-sm text-text-secondary max-w-md text-center leading-relaxed px-8">
-        Send and receive messages without keeping your phone online.
-        <br />
-        Use ChatApp on up to 4 linked devices and 1 phone at the same time.
-      </p>
-
-      {/* Encryption notice */}
-      <div className="flex items-center gap-2 mt-8 text-text-muted">
-        <Lock size={13} />
-        <span className="text-xs">End-to-end encrypted</span>
+        {/* Encryption */}
+        <div className="mt-10 flex items-center justify-center gap-2 text-gray-400">
+          <Lock size={14} />
+          <span className="text-xs">
+            End-to-end encrypted
+          </span>
+        </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default EmptyChat

@@ -1,120 +1,143 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router'
-import { MessageSquare, Mail, Lock, ArrowRight } from 'lucide-react'
-import InputField from '../components/common/InputField'
-import { useLoginMutation } from '../lib/api'
-import { toast } from 'react-toastify'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { MessageSquare, Mail, Lock, ArrowRight } from "lucide-react";
+import InputField from "../components/common/InputField";
+import { useLoginMutation } from "../lib/api";
+import { toast } from "react-toastify";
+import {
+  FaFacebookF,
+  FaGoogle,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
+
+import loginPic from "../assets/img/login.png";
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const [login, { data, isLoading, error }] = useLoginMutation()
+  const [login, { data, isLoading, error }] = useLoginMutation();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    if(!email) return toast.error('Email is required')
-    if(!password) return toast.error('Password is required')
+    if (!email) return toast.error("Email is required");
+    if (!password) return toast.error("Password is required");
 
     try {
-      const res = await login({ email, password }).unwrap()
-      toast.success(res?.message || 'Login Successfully')
-      navigate('/')
+      const res = await login({ email, password }).unwrap();
+      
+      toast.success(res?.message || "Login Successfully");
+      navigate("/");
     } catch (err) {
-      console.error(err)
-      toast.error(err?.data?.message || err?.message || 'Login Failed')
+      console.error(err);
+      toast.error(err?.data?.message || err?.message || "Login Failed");
     }
-  }
-
+  };
 
   return (
-    <div className="relative min-h-screen w-screen flex items-center justify-center bg-surface-dark overflow-hidden px-4 font-inter">
-      {/* Background Orbs */}
-      <div className="w-[350px] h-[350px] rounded-full bg-primary/10 blur-[100px] absolute -top-10 -left-10 animate-pulse pointer-events-none" />
-      <div className="w-[450px] h-[450px] rounded-full bg-primary/15 blur-[120px] absolute -bottom-10 -right-10 pointer-events-none" />
-      <div className="w-[250px] h-[250px] rounded-full bg-primary/5 blur-[80px] absolute top-1/2 left-1/3 pointer-events-none" />
+    <div className="min-h-screen flex bg-[#f5f5f5]">
+      {/* Left Side */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-[#F7F1DE] px-6">
+        <div className="w-full max-w-md">
+          {/* Heading */}
+          <h1 className="text-5xl font-bold text-center mb-10 text-gray-900">
+            Sign In
+          </h1>
 
-      {/* Login Card */}
-      <div className="w-full max-w-md bg-white/[0.02] backdrop-blur-xl border border-white/[0.06] shadow-[0_8px_32px_0_rgba(234,56,77,0.1)] rounded-2xl p-8 z-10 animate-fade-in">
-        {/* Brand Header */}
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-tr from-primary to-primary-dark rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 mb-4 transform hover:rotate-6 transition-transform duration-300">
-            <MessageSquare size={32} className="text-white" />
+          {/* Social Icons */}
+          <div className="flex justify-center gap-5 mb-6">
+            <div className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+              <FaFacebookF className="text-blue-600" />
+            </div>
+
+            <div className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+              <FaGoogle className="text-red-500" />
+            </div>
+
+            <div className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+              <FaInstagram className="text-pink-500" />
+            </div>
+
+            <div className="w-12 h-12 rounded-full border flex items-center justify-center hover:bg-gray-100 cursor-pointer">
+              <FaLinkedinIn className="text-blue-700" />
+            </div>
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">Welcome Back</h2>
-          <p className="text-sm text-white/50 mt-1">Connect, chat, and share seamlessly</p>
+
+          <p className="text-center text-gray-500 mb-8">Or use your account</p>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <input
+              type="email"
+              placeholder="Email Address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-6 py-4 rounded-full border border-gray-300 bg-white text-gray-700 placeholder:text-gray-400 outline-none focus:border-teal-700 transition"
+            />
+
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-6 py-4 rounded-full border border-gray-300 bg-white text-gray-700 placeholder:text-gray-400 outline-none focus:border-teal-700 transition"
+            />
+
+            <div className="text-center text-gray-500 text-sm">
+              Forgot your password?
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-4 rounded-full bg-teal-700 hover:bg-teal-800 text-white font-medium transition"
+            >
+              {isLoading ? "Signing In..." : "Sign In"}
+            </button>
+
+            <p className="text-center text-gray-500 mt-6">
+              Don't have an account?{" "}
+              <Link to="/signup" className="font-semibold text-teal-700">
+                Sign Up
+              </Link>
+            </p>
+          </form>
         </div>
+      </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
-          <InputField
-            label="Email Address"
-            type="email"
-            placeholder="name@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            icon={Mail}
-            required
-          />
+      {/* Right Side */}
+      <div className="hidden lg:block lg:w-1/2 relative overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={loginPic}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover blur-s scale-110"
+        />
 
-          {/* Password */}
-          <InputField
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            icon={Lock}
-            required
-          />
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/30"></div>
 
-          {/* Remember & Forgot Placeholder (Decorative) */}
-          <div className="flex items-center justify-between text-xs text-white/40 pt-1">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                className="w-4 h-4 rounded border-white/10 bg-white/5 text-primary focus:ring-0 focus:ring-offset-0 accent-primary cursor-pointer"
-              />
-              <span>Remember me</span>
-            </label>
-            <a href="#forgot" className="hover:text-white transition-colors duration-200">
-              Forgot password?
-            </a>
-          </div>
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-white px-10">
+          <h1 className="text-6xl font-bold mb-5">Hey There!</h1>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-3 px-4 bg-gradient-to-r from-primary to-primary-dark hover:brightness-110 text-white font-medium rounded-xl shadow-lg shadow-primary/10 hover:shadow-primary/20 transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
+          <p className="text-lg text-center max-w-md mb-10">
+            Create your account now and step into an amazing new journey.
+          </p>
+
+          <Link
+            to="/signup"
+            className="px-14 py-4 border-2 border-white rounded-full hover:bg-white hover:text-black transition"
           >
-            {isLoading ? (
-              <>
-                <span className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-                <span>Signing In...</span>
-              </>
-            ) : (
-              <>
-                <span>Sign In</span>
-                <ArrowRight size={16} />
-              </>
-            )}
-          </button>
-        </form>
-
-        {/* Footer */}
-        <p className="text-center text-xs text-white/40 mt-8">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-primary hover:text-primary-dark font-semibold transition-colors duration-200 underline decoration-primary/20 underline-offset-4">
-            Create an account
+            Sign Up
           </Link>
-        </p>
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

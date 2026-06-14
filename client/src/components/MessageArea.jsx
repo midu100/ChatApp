@@ -4,7 +4,7 @@ import { CheckCheck } from 'lucide-react'
 /**
  * MessageArea - Fully static message area with hardcoded messages matching the mockup
  */
-const MessageArea = () => {
+const MessageArea = ({ selectedConvo }) => {
   return (
     <div className="flex-1 overflow-y-auto no-scrollbar py-4 bg-[#f3f4f6]/50">
       {/* Encryption notice */}
@@ -30,7 +30,7 @@ const MessageArea = () => {
       {/* Message 1 - Incoming: "Dude this thing we are trying" */}
       <div className="flex items-end gap-2.5 px-4 justify-start mt-2 animate-fade-in">
         <div className="w-8 shrink-0 flex justify-center">
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Chole Adams" className="w-8 h-8 rounded-full object-cover" />
+          <Avatar name={selectedConvo?.fullName || "Chat"} image={selectedConvo?.avatar} size="sm" showStatus={false} />
         </div>
         <div className="relative max-w-[65%] rounded-2xl px-4 py-2.5 shadow-sm bg-bubble-received text-text-primary rounded-bl-none border border-border-subtle/50">
           <p className="text-[14.5px] leading-relaxed">Dude this thing we are trying</p>
@@ -79,7 +79,7 @@ const MessageArea = () => {
       {/* Message 5 - Incoming: "Hey Did you just ......" */}
       <div className="flex items-end gap-2.5 px-4 justify-start mt-2 animate-fade-in">
         <div className="w-8 shrink-0 flex justify-center">
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" alt="Chole Adams" className="w-8 h-8 rounded-full object-cover" />
+          <Avatar name={selectedConvo?.fullName || "Chat"} image={selectedConvo?.avatar} size="sm" showStatus={false} />
         </div>
         <div className="relative max-w-[65%] rounded-2xl px-4 py-2.5 shadow-sm bg-bubble-received text-text-primary rounded-bl-none border border-border-subtle/50">
           <p className="text-[14.5px] leading-relaxed">Hey Did you just ......</p>

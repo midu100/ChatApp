@@ -4,6 +4,7 @@ import LayoutOne from './layout/LayoutOne'
 import Chat from './pages/Chat'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
    const myRoute = createBrowserRouter(
@@ -19,7 +20,16 @@ function App() {
     )
   )
 
-  return <RouterProvider router={myRoute} />
+  return (
+  <div>
+    <RouterProvider router={myRoute} />
+    <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        theme="dark"
+      />
+  </div>
+  )
 }
 
 export default App
